@@ -7,11 +7,12 @@ const compression = require('compression');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const ejsLayouts = require('express-ejs-layouts');
+const cookieParser = require('cookie-parser');
 const adminRoutes = require('./admin/routes');
-//const routers = require('./routers');
+const routes = require('./routes');
 
 //mongoose 
-//require('./lib/mongoose');
+require('./data/init.mongodb');
 
 // user middleware
 app.use(helmet());
@@ -30,6 +31,8 @@ app.use(mongoSanitize());
 
 // data sanitization against XSS(clean user input from malicious HTML code)
 app.use(xss());
+
+app.use(cookieParser());
 
 // view engine setup
 app.set('view engine', 'ejs');
@@ -63,6 +66,7 @@ app.use(express.static(path.join(__dirname, 'uploads')));
 //app.use(adminRoutes);
 //app.use(routers);
 adminRoutes(app);
+routes(app);
 
 // error handling middleware called
 app.use((req, res, next) => {

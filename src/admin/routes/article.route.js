@@ -4,4 +4,6 @@ const articleController = require('../controllers/article.controller');
 
 router.get('/', articleController.index);
 
+router.get('/create', articleController.create);
+
 module.exports = router;
